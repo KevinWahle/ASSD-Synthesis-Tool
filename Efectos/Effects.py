@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 
-# mysamplerate, data = wavfile.read('Flanging_effect_orig.wav')
+# mysamplerate, data = wavfile.read('Efectos\Guirar_recorte.wav')
 
 
 def echo (data, delay, decay, samplerate):  #delay in ms, decay in (0,1)
@@ -39,7 +39,7 @@ def flanger (data, delay, decay, samplerate, fd=1): #delay in ms, decay in (0,1)
     newDelay = np.ndarray(data.shape[0], dtype=int)
 
     for n in range(data.shape[0]):
-        newDelay[n] = n - int(delay/2*(1-math.cos(2*np.pi*n*fd)))
+        newDelay[n] = max(n - int(delay/2*(1-math.cos(2*np.pi*n*fd))), 0)
 
     print(newDelay)
 
@@ -60,8 +60,8 @@ def plotall (samplerate, data, mseg):   #Funcion de testeo
     plt.show()
 
 # mseg1=200
-# mseg2=1
+# mseg2=10
 
 # wavfile.write("echo.wav", mysamplerate, echo(data, mseg1, 0.5, mysamplerate))
 # wavfile.write("planeReverb.wav", mysamplerate, planeReverb(data, mseg1, 0.5, mysamplerate))
-# wavfile.write("flanger.wav", mysamplerate, flanger(data, mseg2, 0.5, mysamplerate, 1))
+# wavfile.write("flanger.wav", mysamplerate, flanger(data, mseg2, 0.5, mysamplerate, 0.9))
