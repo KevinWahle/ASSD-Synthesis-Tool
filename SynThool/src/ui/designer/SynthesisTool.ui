@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>807</width>
     <height>600</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>807</width>
+    <height>600</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Synthesis Tool</string>
@@ -32,22 +38,25 @@
             <item>
              <widget class="QWidget" name="verticalWidget_3" native="true">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>220</width>
+                <width>335</width>
                 <height>0</height>
                </size>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_3">
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
                <item>
                 <widget class="QWidget" name="horizontalWidget_3" native="true">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -176,271 +185,244 @@
                  </layout>
                 </widget>
                </item>
-               <item alignment="Qt::AlignTop">
-                <widget class="QGroupBox" name="groupBox">
+               <item>
+                <widget class="QWidget" name="widget" native="true">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="title">
-                  <string>Tracks</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_11">
+                 <layout class="QVBoxLayout" name="verticalLayout_15">
                   <property name="leftMargin">
                    <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>5</number>
                   </property>
                   <property name="rightMargin">
                    <number>0</number>
                   </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
                   <item>
-                   <widget class="QWidget" name="" native="true">
+                   <widget class="QScrollArea" name="scrollArea">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_15">
-                     <property name="leftMargin">
-                      <number>0</number>
+                    <property name="horizontalScrollBarPolicy">
+                     <enum>Qt::ScrollBarAlwaysOff</enum>
+                    </property>
+                    <property name="sizeAdjustPolicy">
+                     <enum>QAbstractScrollArea::AdjustToContents</enum>
+                    </property>
+                    <property name="widgetResizable">
+                     <bool>true</bool>
+                    </property>
+                    <widget class="QWidget" name="scrollAreaWidgetContents">
+                     <property name="geometry">
+                      <rect>
+                       <x>0</x>
+                       <y>0</y>
+                       <width>299</width>
+                       <height>415</height>
+                      </rect>
                      </property>
-                     <property name="rightMargin">
-                      <number>0</number>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
                      </property>
-                     <item>
-                      <widget class="QScrollArea" name="scrollArea">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="horizontalScrollBarPolicy">
-                        <enum>Qt::ScrollBarAlwaysOff</enum>
-                       </property>
-                       <property name="widgetResizable">
-                        <bool>true</bool>
-                       </property>
-                       <widget class="QWidget" name="scrollAreaWidgetContents">
-                        <property name="geometry">
-                         <rect>
-                          <x>0</x>
-                          <y>0</y>
-                          <width>302</width>
-                          <height>107</height>
-                         </rect>
-                        </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_5">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <item alignment="Qt::AlignTop">
+                       <widget class="QWidget" name="verticalWidget" native="true">
                         <property name="sizePolicy">
-                         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                           <horstretch>0</horstretch>
                           <verstretch>0</verstretch>
                          </sizepolicy>
                         </property>
-                        <layout class="QVBoxLayout" name="verticalLayout_5">
-                         <property name="leftMargin">
-                          <number>0</number>
-                         </property>
-                         <property name="rightMargin">
-                          <number>0</number>
-                         </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_4">
                          <item>
-                          <widget class="QWidget" name="verticalWidget" native="true">
+                          <widget class="QWidget" name="horizontalWidget_5" native="true">
                            <property name="sizePolicy">
-                            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                              <horstretch>0</horstretch>
                              <verstretch>0</verstretch>
                             </sizepolicy>
                            </property>
-                           <layout class="QVBoxLayout" name="verticalLayout_4">
+                           <layout class="QHBoxLayout" name="horizontalLayout_28">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>1</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
                             <item>
-                             <widget class="QWidget" name="horizontalWidget_5" native="true">
-                              <property name="sizePolicy">
-                               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                               </sizepolicy>
+                             <widget class="QCheckBox" name="track1Check">
+                              <property name="layoutDirection">
+                               <enum>Qt::RightToLeft</enum>
                               </property>
-                              <layout class="QHBoxLayout" name="horizontalLayout_28">
-                               <property name="leftMargin">
-                                <number>0</number>
-                               </property>
-                               <property name="topMargin">
-                                <number>1</number>
-                               </property>
-                               <property name="rightMargin">
-                                <number>0</number>
-                               </property>
-                               <item>
-                                <widget class="QCheckBox" name="track1Check">
-                                 <property name="layoutDirection">
-                                  <enum>Qt::RightToLeft</enum>
-                                 </property>
-                                 <property name="text">
-                                  <string>Track 1: </string>
-                                 </property>
-                                </widget>
-                               </item>
-                               <item>
-                                <widget class="QComboBox" name="track1Comb">
-                                 <property name="sizePolicy">
-                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                   <horstretch>0</horstretch>
-                                   <verstretch>0</verstretch>
-                                  </sizepolicy>
-                                 </property>
-                                 <item>
-                                  <property name="text">
-                                   <string>Piano</string>
-                                  </property>
-                                  <property name="icon">
-                                   <iconset>
-                                    <normaloff>Res/grand-piano.png</normaloff>Res/grand-piano.png</iconset>
-                                  </property>
-                                 </item>
-                                 <item>
-                                  <property name="text">
-                                   <string>Guitarra</string>
-                                  </property>
-                                  <property name="icon">
-                                   <iconset>
-                                    <normaloff>Res/guitar.png</normaloff>Res/guitar.png</iconset>
-                                  </property>
-                                 </item>
-                                 <item>
-                                  <property name="text">
-                                   <string>Platillo</string>
-                                  </property>
-                                  <property name="icon">
-                                   <iconset>
-                                    <normaloff>Res/cymbals.png</normaloff>Res/cymbals.png</iconset>
-                                  </property>
-                                 </item>
-                                </widget>
-                               </item>
-                               <item>
-                                <widget class="QSlider" name="track1Slider">
-                                 <property name="sizePolicy">
-                                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                                   <horstretch>0</horstretch>
-                                   <verstretch>0</verstretch>
-                                  </sizepolicy>
-                                 </property>
-                                 <property name="styleSheet">
-                                  <string notr="true"/>
-                                 </property>
-                                 <property name="sliderPosition">
-                                  <number>99</number>
-                                 </property>
-                                 <property name="orientation">
-                                  <enum>Qt::Horizontal</enum>
-                                 </property>
-                                 <property name="invertedAppearance">
-                                  <bool>false</bool>
-                                 </property>
-                                </widget>
-                               </item>
-                              </layout>
+                              <property name="text">
+                               <string>Track 1: </string>
+                              </property>
                              </widget>
                             </item>
                             <item>
-                             <widget class="QWidget" name="horizontalWidget_10" native="true">
+                             <widget class="QComboBox" name="track1Comb">
                               <property name="sizePolicy">
-                               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                                 <horstretch>0</horstretch>
                                 <verstretch>0</verstretch>
                                </sizepolicy>
                               </property>
-                              <layout class="QHBoxLayout" name="horizontalLayout_37">
-                               <property name="leftMargin">
-                                <number>0</number>
+                              <item>
+                               <property name="text">
+                                <string>Piano</string>
                                </property>
-                               <property name="topMargin">
-                                <number>1</number>
+                               <property name="icon">
+                                <iconset>
+                                 <normaloff>Res/grand-piano.png</normaloff>Res/grand-piano.png</iconset>
                                </property>
-                               <property name="rightMargin">
-                                <number>0</number>
+                              </item>
+                              <item>
+                               <property name="text">
+                                <string>Guitarra</string>
                                </property>
-                               <item>
-                                <widget class="QCheckBox" name="track2Check_3">
-                                 <property name="layoutDirection">
-                                  <enum>Qt::RightToLeft</enum>
-                                 </property>
-                                 <property name="text">
-                                  <string>Track 2: </string>
-                                 </property>
-                                </widget>
-                               </item>
-                               <item>
-                                <widget class="QComboBox" name="track2Comb_3">
-                                 <property name="sizePolicy">
-                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                   <horstretch>0</horstretch>
-                                   <verstretch>0</verstretch>
-                                  </sizepolicy>
-                                 </property>
-                                 <item>
-                                  <property name="text">
-                                   <string>Piano</string>
-                                  </property>
-                                  <property name="icon">
-                                   <iconset>
-                                    <normaloff>Res/grand-piano.png</normaloff>Res/grand-piano.png</iconset>
-                                  </property>
-                                 </item>
-                                 <item>
-                                  <property name="text">
-                                   <string>Guitarra</string>
-                                  </property>
-                                  <property name="icon">
-                                   <iconset>
-                                    <normaloff>C:/Users/KevinWahle/.designer/backup/Res/guitar.png</normaloff>C:/Users/KevinWahle/.designer/backup/Res/guitar.png</iconset>
-                                  </property>
-                                 </item>
-                                 <item>
-                                  <property name="text">
-                                   <string>Platillo</string>
-                                  </property>
-                                  <property name="icon">
-                                   <iconset>
-                                    <normaloff>C:/Users/KevinWahle/.designer/backup/Res/cymbals.png</normaloff>C:/Users/KevinWahle/.designer/backup/Res/cymbals.png</iconset>
-                                  </property>
-                                 </item>
-                                </widget>
-                               </item>
-                               <item>
-                                <widget class="QSlider" name="track2Slider_3">
-                                 <property name="sizePolicy">
-                                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                                   <horstretch>0</horstretch>
-                                   <verstretch>0</verstretch>
-                                  </sizepolicy>
-                                 </property>
-                                 <property name="styleSheet">
-                                  <string notr="true"/>
-                                 </property>
-                                 <property name="sliderPosition">
-                                  <number>99</number>
-                                 </property>
-                                 <property name="orientation">
-                                  <enum>Qt::Horizontal</enum>
-                                 </property>
-                                 <property name="invertedAppearance">
-                                  <bool>false</bool>
-                                 </property>
-                                </widget>
-                               </item>
-                              </layout>
+                               <property name="icon">
+                                <iconset>
+                                 <normaloff>Res/guitar.png</normaloff>Res/guitar.png</iconset>
+                               </property>
+                              </item>
+                              <item>
+                               <property name="text">
+                                <string>Platillo</string>
+                               </property>
+                               <property name="icon">
+                                <iconset>
+                                 <normaloff>Res/cymbals.png</normaloff>Res/cymbals.png</iconset>
+                               </property>
+                              </item>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QSlider" name="track1Slider">
+                              <property name="sizePolicy">
+                               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                               </sizepolicy>
+                              </property>
+                              <property name="styleSheet">
+                               <string notr="true"/>
+                              </property>
+                              <property name="sliderPosition">
+                               <number>99</number>
+                              </property>
+                              <property name="orientation">
+                               <enum>Qt::Horizontal</enum>
+                              </property>
+                              <property name="invertedAppearance">
+                               <bool>false</bool>
+                              </property>
+                             </widget>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QWidget" name="horizontalWidget_16" native="true">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <layout class="QHBoxLayout" name="horizontalLayout_44">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>1</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <item>
+                             <widget class="QCheckBox" name="track1Check_12">
+                              <property name="layoutDirection">
+                               <enum>Qt::RightToLeft</enum>
+                              </property>
+                              <property name="text">
+                               <string>Track 1: </string>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QComboBox" name="track1Comb_12">
+                              <property name="sizePolicy">
+                               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                               </sizepolicy>
+                              </property>
+                              <item>
+                               <property name="text">
+                                <string>Piano</string>
+                               </property>
+                               <property name="icon">
+                                <iconset>
+                                 <normaloff>Res/grand-piano.png</normaloff>Res/grand-piano.png</iconset>
+                               </property>
+                              </item>
+                              <item>
+                               <property name="text">
+                                <string>Guitarra</string>
+                               </property>
+                               <property name="icon">
+                                <iconset>
+                                 <normaloff>Res/guitar.png</normaloff>Res/guitar.png</iconset>
+                               </property>
+                              </item>
+                              <item>
+                               <property name="text">
+                                <string>Platillo</string>
+                               </property>
+                               <property name="icon">
+                                <iconset>
+                                 <normaloff>Res/cymbals.png</normaloff>Res/cymbals.png</iconset>
+                               </property>
+                              </item>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QSlider" name="track1Slider_12">
+                              <property name="sizePolicy">
+                               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                               </sizepolicy>
+                              </property>
+                              <property name="styleSheet">
+                               <string notr="true"/>
+                              </property>
+                              <property name="sliderPosition">
+                               <number>99</number>
+                              </property>
+                              <property name="orientation">
+                               <enum>Qt::Horizontal</enum>
+                              </property>
+                              <property name="invertedAppearance">
+                               <bool>false</bool>
+                              </property>
                              </widget>
                             </item>
                            </layout>
@@ -448,9 +430,9 @@
                          </item>
                         </layout>
                        </widget>
-                      </widget>
-                     </item>
-                    </layout>
+                      </item>
+                     </layout>
+                    </widget>
                    </widget>
                   </item>
                  </layout>
