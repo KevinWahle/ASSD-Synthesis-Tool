@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 
 
 
-samplerate, data = wavfile.read('Guirar_recorte.wav')
+#mysamplerate, data = wavfile.read('Guirar_recorte.wav')
 
 
-def echo (data, delay, decay):  #delay in ms, decay in (0,1)
+def echo (data, delay, decay, samplerate):  #delay in ms, decay in (0,1)
     delay=math.floor(delay/1000*samplerate)
     a=np.zeros(1)
     b=np.zeros(delay+1)
@@ -19,7 +19,7 @@ def echo (data, delay, decay):  #delay in ms, decay in (0,1)
     data=signal.lfilter(b,a,data[:,0])
     return data.astype(np.int16)
 
-def planeReverb (data, delay, decay):   #delay in ms, decay in (0,1)
+def planeReverb (data, delay, decay, samplerate):   #delay in ms, decay in (0,1)
     delay=math.floor(delay/1000*samplerate)
     a=np.zeros(delay+1)
     b=np.zeros(1)
@@ -30,7 +30,7 @@ def planeReverb (data, delay, decay):   #delay in ms, decay in (0,1)
     return data.astype(np.int16)
 
 
-def flanger (data, delay, decay, fd=1): #delay in ms, decay in (0,1), fd in Hz (fd \approx 1)
+def flanger (data, delay, decay, samplerate, fd=1): #delay in ms, decay in (0,1), fd in Hz (fd \approx 1)
     delay=math.floor(delay/1000*samplerate)
     flanger = np.zeros(len(data[:,0]))
     for n in range(len(data[:,0])):
@@ -39,7 +39,7 @@ def flanger (data, delay, decay, fd=1): #delay in ms, decay in (0,1), fd in Hz (
     return flanger.astype(np.int16)
 
 
-def plotall (samplerate, data, mseg):
+def plotall (samplerate, data, mseg):   #Funcion de testeo
     length = data.shape[0] / samplerate
     time = np.linspace(0., length, data.shape[0])
     plt.plot(time, flanger(data, math.floor(mseg/1000*samplerate), 0.5), label="flanger")
@@ -52,6 +52,6 @@ def plotall (samplerate, data, mseg):
 mseg1=200
 mseg2=10
 
-wavfile.write("echo.wav", samplerate, echo(data, mseg1, 0.5))
-wavfile.write("planeReverb.wav", samplerate, planeReverb(data, mseg1, 0.5))
-wavfile.write("flanger.wav", samplerate, flanger(data, mseg2, 0.5, 1))
+#wavfile.write("echo.wav", mysamplerate, echo(data, mseg1, 0.5, mysamplerate))
+#wavfile.write("planeReverb.wav", mysamplerate, planeReverb(data, mseg1, 0.5, mysamplerate))
+#wavfile.write("flanger.wav", mysamplerate, flanger(data, mseg2, 0.5, mysamplerate, 1))
