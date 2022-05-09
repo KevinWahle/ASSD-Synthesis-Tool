@@ -721,7 +721,8 @@ class Ui_MainWindow(object):
         self.finalTime.setDisplayFormat(_translate("MainWindow", "mm:ss"))
         self.graficarBtn.setText(_translate("MainWindow", "Graficar"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.espectograma), _translate("MainWindow", "Espectograma"))
-from scr.ui.widgets.PlotWidget import PlotWidget
+
+from src.ui.widgets.PlotWidget import PlotWidget
 
 
 if __name__ == "__main__":
