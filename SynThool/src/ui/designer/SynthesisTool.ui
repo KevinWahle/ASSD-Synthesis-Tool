@@ -237,7 +237,7 @@
                          <rect>
                           <x>0</x>
                           <y>0</y>
-                          <width>313</width>
+                          <width>302</width>
                           <height>107</height>
                          </rect>
                         </property>
@@ -876,7 +876,10 @@
                       <string notr="true"/>
                      </property>
                      <property name="maximum">
-                      <number>5</number>
+                      <number>5000</number>
+                     </property>
+                     <property name="singleStep">
+                      <number>1</number>
                      </property>
                      <property name="orientation">
                       <enum>Qt::Vertical</enum>
@@ -897,6 +900,9 @@
                      <property name="smallDecimalPoint">
                       <bool>false</bool>
                      </property>
+                     <property name="intValue" stdset="0">
+                      <number>0</number>
+                     </property>
                     </widget>
                    </item>
                    <item>
@@ -908,7 +914,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>Frecuencia [Hz]</string>
+                      <string>Frecuencia [mHz]</string>
                      </property>
                     </widget>
                    </item>
