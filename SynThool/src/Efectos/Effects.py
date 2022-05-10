@@ -45,7 +45,7 @@ def flanger (data, delay, decay, samplerate, fd=1): #delay in ms, decay in (0,1)
     newDelay = np.ndarray(data.shape[0], dtype=int)
 
     for n in range(data.shape[0]):
-        newDelay[n] = max(n - int(delay/2*(1-math.cos(2*np.pi*n*fd))), 0)
+        newDelay[n] = max(n - int(delay/2*(1-math.cos(2*np.pi*n*fd/samplerate))), 0)
     print (newDelay)
     for i in range(data.shape[1]):
             flanger[:,i]=data[:,i]+decay * data[newDelay, i]
