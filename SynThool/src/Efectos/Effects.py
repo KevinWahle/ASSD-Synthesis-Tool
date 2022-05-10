@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 
 
 def echo (data, delay, decay, samplerate):  #delay in ms, decay in (0,1)
+    if (data.ndim==1):
+        data=np.array([data]).T
     delay=math.floor(delay/1000*samplerate)
     a=np.zeros(1)
     b=np.zeros(delay+1)
@@ -22,6 +24,8 @@ def echo (data, delay, decay, samplerate):  #delay in ms, decay in (0,1)
     return data.astype(np.int16)
 
 def planeReverb (data, delay, decay, samplerate):   #delay in ms, decay in (0,1)
+    if (data.ndim==1):
+        data=np.array([data]).T
     delay=math.floor(delay/1000*samplerate)
     a=np.zeros(delay+1)
     b=np.zeros(1)
@@ -34,15 +38,15 @@ def planeReverb (data, delay, decay, samplerate):   #delay in ms, decay in (0,1)
 
 
 def flanger (data, delay, decay, samplerate, fd=1): #delay in ms, decay in (0,1), fd in Hz (fd \approx 1)
+    if (data.ndim==1):
+        data=np.array([data]).T
     delay=math.floor(delay/1000*samplerate)
     flanger = np.zeros(data.shape)
     newDelay = np.ndarray(data.shape[0], dtype=int)
 
     for n in range(data.shape[0]):
         newDelay[n] = max(n - int(delay/2*(1-math.cos(2*np.pi*n*fd))), 0)
-
-    print(newDelay)
-
+    print (newDelay)
     for i in range(data.shape[1]):
             flanger[:,i]=data[:,i]+decay * data[newDelay, i]
 
@@ -52,8 +56,8 @@ def flanger (data, delay, decay, samplerate, fd=1): #delay in ms, decay in (0,1)
 def plotall (samplerate, data, mseg):   #Funcion de testeo
     length = data.shape[0] / samplerate
     time = np.linspace(0., length, data.shape[0])
-    plt.plot(time, flanger(data, math.floor(mseg/1000*samplerate), 0.5), label="flanger")
-    plt.plot(time, data[:, 1], label="input")
+    plt.plot(time, flanger(data, math.floor(mseg/1000*samplerate), 0.5, 1), label="flanger")
+    plt.plot(time, data, label="input")
     plt.legend()
     plt.xlabel("Time [s]")
     plt.ylabel("Amplitude")
