@@ -112,11 +112,13 @@ def sample_synth(note, vel, duration):
 
 def apply_release(data, release_index, release_duration):
     
-    nfinal = release_index + release_duration
+    if release_duration > 0:
 
-    if nfinal <= data.shape[0]:
-        data[release_index:nfinal, :] *= np.linspace(np.ones(data.shape[1]), np.zeros(data.shape[1]), release_duration)
-        data = data[:nfinal, :]
+        nfinal = release_index + release_duration
+
+        if nfinal <= data.shape[0]:
+            data[release_index:nfinal, :] *= np.linspace(np.ones(data.shape[1]), np.zeros(data.shape[1]), release_duration)
+            data = data[:nfinal, :]
 
     return data
 
