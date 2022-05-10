@@ -1,10 +1,12 @@
-from sfzParser import load
+from src.synthesizers.sampleSynth.sfzParser import load
 from scipy.io.wavfile import read, write
 import soundfile as sf                              
 import numpy as np
 # import os
 
-PATH = 'piano_samples/'
+PATH = 'src/synthesizers/sampleSynth/piano_samples/'
+
+parsedSFZ = load(PATH + 'piano.sfz')
 
 def linear_pitch_shift(data, ratio):
     """
@@ -31,10 +33,7 @@ def linear_pitch_shift(data, ratio):
 
 def sample_synth(note, vel, duration):
 
-    result = load(PATH + 'piano.sfz')
-    # print(result['regions'])
-
-    regions = result['regions']
+    regions = parsedSFZ['regions']
 
     region = None
 
