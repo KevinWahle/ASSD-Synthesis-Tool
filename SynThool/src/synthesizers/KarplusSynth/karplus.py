@@ -18,19 +18,22 @@ def KarplusStrongGuitar(pitch, A, duration):
 def KarplusStrongDrum(pitch, A, duration):
     f = midinote2freq(pitch)
     p = int((44100/f)-0.5)
-    x = []
-    for n in range(p):
-        x.append(rand.gauss(0,1)*A)
+    x = np.empty(p + int(duration*44100))
+    x[:p] = [rand.uniform(-1,1) for _ in range(p) ] 
+    
+    # for n in range(p):
+    #     x.append(rand.gauss(0,1)*A)
 
     for n2 in range(p+1, int(duration*44100)):
         d = rand.uniform(0,1)
         if d < 0.5:
-            x.append(0.5*(x[n2-p]+x[n2-p-1]))
+            x[n2] = 0.5*(x[n2-p]+x[n2-p-1])
         else:
-            x.append(-0.5 * (x[n2 - p] + x[n2 - p - 1]))
+            x[n2] = -0.5 * (x[n2 - p] + x[n2 - p - 1])
 
-    maxX = max(x)
-    for i in range(len(x)):
-        x[i] = x[i]/maxX
-    x /= 127
+    maxX = x.max()
+    x *=  A/(127*maxX)
+    # for i in range(len(x)):
+    #     x[i] = x[i]/maxX
+    # x /= 127
     return x[p:]
