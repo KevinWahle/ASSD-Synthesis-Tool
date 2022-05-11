@@ -1,12 +1,14 @@
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHBoxLayout, QCheckBox, QSlider, QComboBox
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHBoxLayout, QCheckBox, QSlider, QComboBox, QLayout, QWidget
 from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon
 
 from src.ui.windows.SynthesisTool_window import Ui_MainWindow
 from src.MIDI.Midi import Midi
+from src.Efectos.Effects import echo, planeReverb, flanger
 
 import numpy as np
 import scipy.io.wavfile as wavfile
+import sounddevice as sd
 
 from src.synthesizers.KarplusSynth.karplus import KarplusStrongDrum, KarplusStrongGuitar
 from src.synthesizers.sampleSynth.sample_synth import sample_synth
@@ -18,7 +20,7 @@ class SynThoolApp(QMainWindow, Ui_MainWindow):
 
         self.isPlaying = False
         self.filename = ""
-        self.tracks = np.empty((0, 2), dtype=object)    # [ track, on/off ]
+        # self.tracks = np.empty((0, 2), dtype=object)    # [ track, on/off ]
         self.midi = None
         self.wav_data = None
         self.instruments = [    [ "Piano", "res/grand-piano.png", lambda n, v, t: sample_synth(n, v, t)[0] ],
@@ -52,24 +54,38 @@ class SynThoolApp(QMainWindow, Ui_MainWindow):
 
                 self.midi = Midi(self.filename)
 
-                self.tracks = np.empty(shape=(self.midi.amount_of_tracks, 2), dtype=object)    # [ track, on/off ]
+                sd.default.samplerate = self.midi.sample_rate
 
-                self.tracks[:, 0] = self.midi.tracks_midi_list
-                self.tracks[:, 1] = True    # Por default todos activados
+                # toAdd = np.empty(shape=(self.midi.amount_of_tracks, 2), dtype=object)
+                # toAdd[:, 0] = self.midi.tracks_midi_list
+                # toAdd[:, 1] = True    # Por default todos activados
 
-                self.showTracks()
+                self.createTracks()
+
+                # self.tracks = np.concatenate((self.tracks, toAdd), axis=0)
 
                 self.sinteziseBtn.setEnabled(True)
             except Exception as e:
                 print("Error al interpretar el archivo: ", e)
 
-    def showTracks(self):
-        for i, track in enumerate(self.tracks[:, 0]):
-            self.verticalLayout_4.addLayout(self.createTrackWidget(track, i))
+    def createTracks(self):
+        self.clearTracks()
+        for i in range(self.midi.amount_of_tracks):
+            self.verticalLayout_5.addLayout(self.createTrackWidget(i))
 
-    def createTrackWidget(self, track, i):
+    def clearTracks(self):
+        self.clearLayout(self.verticalLayout_5)
+
+    def clearLayout(self, layout):
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget() is not None:
+                child.widget().deleteLater()
+            elif child.layout() is not None:
+                self.clearLayout(child.layout())
+
+    def createTrackWidget(self, i):
         layout = QHBoxLayout()
-        # check = QCheckBox(track.name)
         check = QCheckBox('Track ' + str(i) + ': ')
         check.setChecked(True)
         check.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
@@ -87,30 +103,50 @@ class SynThoolApp(QMainWindow, Ui_MainWindow):
 
     def synthesize(self):
 
+        self.isPlaying = False
+        sd.stop()
+        self.setPlaybackEnabled(False)
+
         try:
 
-            for index, row in enumerate(self.verticalLayout_4.children()):
+            # visibles = np.empty(0, dtype=int)
+
+            for index, row in enumerate(self.verticalLayout_5.children()):
                 checked = row.itemAt(0).widget().checkState() == QtCore.Qt.Checked
-                # self.tracks[row.itemAt(0).widget().text()[-1], 1] = checked
+                # self.tracks[index, 1] = checked
+
                 if (checked):
                     instrument = row.itemAt(1).widget().currentIndex()
                     volume = row.itemAt(2).widget().value()
+                    maxVol = row.itemAt(2).widget().maximum()
                     self.midi.synthesize_track(index, self.getSynthFunc(instrument))
-                    self.midi.wav_list[index] *= volume/100
-                    print(index, checked, instrument, volume)
+                    self.midi.wav_list[index] = (volume/maxVol) * np.array(self.midi.wav_list[index])
+    
+                    # visibles = np.append(visibles, index)
+                    # print(index, checked, instrument, volume)
 
+            # tracks = self.tracks[visibles, 0]
             self.wav_data = self.midi.weighTracks(self.midi.wav_list).astype(np.float32)
 
-            self.isPlaying = False
-
-            self.saveBtn.setEnabled(True)
-            self.playPauseBtn.setEnabled(True)
-            self.playPauseBtn.setIcon(self.playIcon[0])
-            self.stopBtn.setEnabled(True)
-            self.songSlider.setEnabled(True)
+            if self.reverbCheck.isChecked():
+                delay = self.reverbRetrasoSlider.value()
+                gain = self.reverbGananciaSlider.value()
+                self.wav_data = planeReverb(self.wav_data, delay, gain, self.midi.sample_rate)
+            if self.echoCheck.isChecked():
+                delay = self.ehcoRetrasoSlider.value()
+                gain = self.echoGananciaSlider.value()
+                self.wav_data = echo(self.wav_data, delay, gain, self.midi.sample_rate)
+            if self.flangerCheck.isChecked():
+                delay = self.flangerRetrasoSlider.value()
+                gain = self.flangerGananciaSlider.value()
+                freq = self.flangerFrecuenciaSlider.value()/1000.
+                self.wav_data = flanger(self.wav_data, delay, gain, self.midi.sample_rate, freq)
 
         except Exception as e:
             print("Error al sintetizar: ", e)
+
+        self.setPlaybackEnabled(True)
+        self.playPauseBtn.setIcon(self.playIcon[0])
 
     def getSynthFunc(self, index):
         return self.instruments[index][2]
@@ -119,11 +155,16 @@ class SynThoolApp(QMainWindow, Ui_MainWindow):
         if self.isPlaying:  # Pausa
             self.isPlaying = False
             self.playPauseBtn.setIcon(self.playIcon[0])
-        else:
-            self.isPlaying = True
-            self.playPauseBtn.setIcon(self.playIcon[1])
+        elif len(self.wav_data):
+                sd.play(self.wav_data)
+
+                self.isPlaying = True
+                self.playPauseBtn.setIcon(self.playIcon[1])
 
     def stop(self):
+
+        sd.stop()
+
         self.isPlaying = False
         self.playPauseBtn.setIcon(self.playIcon[0])
         self.songSlider.setValue(0)
@@ -138,6 +179,11 @@ class SynThoolApp(QMainWindow, Ui_MainWindow):
         if self.filename:
             wavfile.write(self.filename, self.midi.sample_rate, self.wav_data)
 
+    def setPlaybackEnabled(self, state):
+        self.saveBtn.setEnabled(state)
+        self.playPauseBtn.setEnabled(state)
+        self.stopBtn.setEnabled(state)
+        self.songSlider.setEnabled(state)
 
     def graphSpectrogram(self):
         print("Graficar espectrograma")
