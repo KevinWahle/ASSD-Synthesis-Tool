@@ -29,7 +29,6 @@ def partialMixerTest(): #Ok
     wav.write(filename="mixed.wav", rate=fs, data=mixed)
 
 def genPartialsTest(): #ok
-    # https://freewavesamples.com/
     fs=44100
     instrument="Bell"; Note="C5"
     current_path = os.path.dirname(os.path.abspath(__file__))
@@ -51,10 +50,10 @@ def test(verbose=False):             # Prueba completa SIN ADSR
     loadedpart=sa.loadPartials(instrument=instrument, note=note)
     partials = [[part[0], part[1], adsr] for part in loadedpart]
     mixed=sa.partialMixer(partials, dur=dur, fs=fs, verbose=verbose)
-    mixed/=1.5
+    mixed/=1
     k = np.iinfo(np.int16).max          # Max de int16
     mixed=(k*mixed).astype(np.int16)    # La llevamos a la amplitud que trabaja int16 
     wav.write(filename="Synth"+instrument+note+".wav", rate=fs, data=mixed)
 
 #genPartialsTest()
-#test(verbose=True)
+test(verbose=False)

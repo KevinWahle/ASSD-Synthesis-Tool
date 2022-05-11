@@ -11,6 +11,7 @@ import scipy.signal as ss
 import matplotlib.pyplot as plt
 import os
 import csv
+import random as rd
 
 def genSine(freq, A=1, phase=0, fs=44100, dur=1, verbose=False):
     phase = (phase / 360) * 2 * math.pi     # convert phase to radians
