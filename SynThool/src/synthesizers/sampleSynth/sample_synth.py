@@ -102,6 +102,10 @@ def sample_synth(note, vel, duration):
     # Se le aplica la atenuacion de release si es necesario
     data = apply_release(data, sound_len-1, rel_len)
 
+    max = np.max(np.abs(data))
+
+    data *= vel / (127. * max)
+
     # write(name + '_loop'+ str(int(loop_time)) + '.wav', sr, data.astype(np.float32))
 
     # print(data, sr, data.shape)
@@ -112,13 +116,12 @@ def sample_synth(note, vel, duration):
 
 def apply_release(data, release_index, release_duration):
     
-    if release_duration > 0:
+    nfinal = release_index + release_duration
+    
+    if release_duration > 0 and release_index >= 0 and nfinal <= data.shape[0]:
 
-        nfinal = release_index + release_duration
-
-        if nfinal <= data.shape[0]:
-            data[release_index:nfinal, :] *= np.linspace(np.ones(data.shape[1]), np.zeros(data.shape[1]), release_duration)
-            data = data[:nfinal, :]
+        data[release_index:nfinal, :] *= np.linspace(np.ones(data.shape[1]), np.zeros(data.shape[1]), release_duration)
+        data = data[:nfinal, :]
 
     return data
 
