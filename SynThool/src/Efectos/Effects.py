@@ -21,7 +21,7 @@ def echo (data, delay, decay, samplerate):  #delay in ms, decay in (0,1)
     for i in range(data.shape[1]):
         data[:, i]=signal.lfilter(b,a,data[:,i])
 
-    return data.astype(np.int16)
+    return data.astype(np.float32)
 
 def planeReverb (data, delay, decay, samplerate):   #delay in ms, decay in (0,1)
     if (data.ndim==1):
@@ -34,7 +34,7 @@ def planeReverb (data, delay, decay, samplerate):   #delay in ms, decay in (0,1)
     a[0]=1
     for i in range(data.shape[1]):
         data[:, i]=signal.lfilter(b,a,data[:,i])
-    return data.astype(np.int16)
+    return data.astype(np.float32)
 
 
 def flanger (data, delay, decay, samplerate, fd=1): #delay in ms, decay in (0,1), fd in Hz (fd \approx 1)
@@ -46,11 +46,11 @@ def flanger (data, delay, decay, samplerate, fd=1): #delay in ms, decay in (0,1)
 
     for n in range(data.shape[0]):
         newDelay[n] = max(n - int(delay/2*(1-math.cos(2*np.pi*n*fd/samplerate))), 0)
-    print (newDelay)
+    # print (newDelay)
     for i in range(data.shape[1]):
             flanger[:,i]=data[:,i]+decay * data[newDelay, i]
 
-    return flanger.astype(np.int16)
+    return flanger.astype(np.float32)
 
 
 def plotall (samplerate, data, mseg):   #Funcion de testeo
