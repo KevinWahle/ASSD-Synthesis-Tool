@@ -12,7 +12,6 @@ int bitReverse(int i, int logn);
 void bitReverse(complex<double> *in, complex<double> *out, size_t n);
 void swap(complex<double> &a, complex<double> &b);
 
-
 void fft(complex<double> *in, complex<double> *out, size_t n) {
 
     const complex<double> j = complex<double>(0, 1);    // imaginary unit
@@ -24,18 +23,25 @@ void fft(complex<double> *in, complex<double> *out, size_t n) {
     int G = 1;         // Cantidad de grupos inicial
     int M = n >> 1;    // Cantidad de mariposas por grupo inicial: N/2
 
-    vector<complex<double>> W(gamma);
+    vector<complex<double>> W(M);
+
+    for (size_t i = 0; i < n/2; i++)
+    {
+        W[i] = exp(-j*(2*PI*bitReverse(i << 1, gamma)/n));    // w[g] = (W_N)^BR(2*g)
+        if (in != out){
+            out[i] = in[i];
+            out[i + n/2] = in[i + n/2];
+        }
+    }
 
     for(int r = 0; r < E; r++) {    // Etapa
+        int m_sep = M << 1;     // Separacion entre mariposas: N/2^(r+1)
+        int sep = M;            // Separacion entre nodos duales: m_sep/2 
         for(int g = 0; g < G; g++) {    // Grupo
-            int m_sep = M << 1;     // Separacion entre mariposas: N/2^(r+1)
-            int sep = M;            // Separacion entre nodos duales: m_sep/2 
-
-            W[g] = exp(-j*(2*PI*bitReverse(g << 1, gamma)/n));    // w[g] = (W_N)^BR(2*g)
             for(int m = 0; m < M; m++) {    // Mariposa
                 int index = g*m_sep + m;  // Indice del primer nodo la mariposa
-                complex<double> Y = in[index];
-                complex<double> Z = in[index + sep];
+                complex<double> Y = out[index];
+                complex<double> Z = out[index + sep];
                 complex<double> WZ = W[g]*Z;
 
                 out[index] = Y + WZ;

@@ -4,19 +4,51 @@
 
 using namespace std;
 
+void printArr(complex<double> *arr, size_t n);
+
 int main() {
     
     vector<complex<double>> in(1024);
-    vector<complex<double>> out(1024);
+    // vector<complex<double>> out(1024);
     
-    in[0] = complex<double>(1, 1);
-    in[1] = 2;
-    in[2] = 3;
-    in[3] = 4;
-    in[4] = 5;
-    in[5] = 6;
-    in[6] = 7;
-    in[7] = 8;
-    fft(in.data(), out.data(), 8);
+    for(int i =0; i < 16; i++) {
+        in[i] = complex<double>(0, 1);
+    }
+    printArr(in.data(), 16);
+    fft(in.data(), in.data(), 16);
+    printArr(in.data(), 16);
+    // Resultado: [0.+16.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j]
+    cout << endl;
+
+    // in[0] = complex<double>(1, 1);
+    in[0] = 1;
+    in[1] = 0;
+    in[2] = -1;
+    in[3] = 0;
+    in[4] = 1;
+    in[5] = 0;
+    in[6] = -1;
+    in[7] = 0;
+    printArr(in.data(), 8);
+    fft(in.data(), in.data(), 8);
+    printArr(in.data(), 8);
+    // Resultado: [0.-0.j, 0.+0.j, 4.-0.j, 0.+0.j, 0.-0.j, 0.-0.j, 4.+0.j, 0.-0.j]
+    cout << endl;
+    
+    for(int i =0; i < 1024; i++) {
+        in[i] = complex<double>(i%16, 0);
+    }
+
+    printArr(in.data(), 16);
+    fft(in.data(), in.data(), 1024);
+    printArr(in.data(), 1024);
+
     return 0;
+}
+
+void printArr(complex<double> *arr, size_t n) {
+    for (size_t i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
 }
