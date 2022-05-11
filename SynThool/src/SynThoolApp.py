@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHBoxLayout, QCheckBox, QSlider, QComboBox, QLayout, QWidget
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHBoxLayout, QCheckBox, QSlider, QComboBox
 from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon
 
@@ -28,11 +28,16 @@ class SynThoolApp(QMainWindow, Ui_MainWindow):
                                 [ "Platillo", "res/cymbals", KarplusStrongDrum ] ]
         self.playIcon = [QIcon("res/play.png"), QIcon("res/pause.png")]
 
+        self.verticalLayout_5.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
+
         self.saveBtn.setEnabled(False)  # Deshabilitado hasta que se sintetice
         self.sinteziseBtn.setEnabled(False)  # Deshabilitado hasta que se cargue archivo
         self.playPauseBtn.setEnabled(False)  # Deshabilitado hasta que se sintetice
         self.stopBtn.setEnabled(False)  # Deshabilitado hasta que se sintetice
         self.songSlider.setEnabled(False)  # Deshabilitado hasta que se sintetice
+        self.initialTime.setEnabled(False) # Deshabilitado hasta que se sintetice
+        self.finalTime.setEnabled(False) # Deshabilitado hasta que se sintetice
+        self.graficarBtn.setEnabled(False)  # Deshabilitado hasta que se sintetice
 
         self.openBtn.clicked.connect(self.open_file)
         self.saveBtn.clicked.connect(self.saveFile)
@@ -41,6 +46,7 @@ class SynThoolApp(QMainWindow, Ui_MainWindow):
         self.stopBtn.clicked.connect(self.stop)
 
         self.graficarBtn.clicked.connect(self.graphSpectrogram)
+        self.finalTime.timeChanged.connect(lambda time: self.initialTime.setMaximumTime(time))
 
     def open_file(self):
         self.filename, _ = QFileDialog.getOpenFileName(
@@ -106,6 +112,10 @@ class SynThoolApp(QMainWindow, Ui_MainWindow):
         self.isPlaying = False
         sd.stop()
         self.setPlaybackEnabled(False)
+        self.initialTime.setEnabled(False)
+        self.finalTime.setEnabled(False)
+        self.graficarBtn.setEnabled(False)
+
 
         try:
 
@@ -130,23 +140,35 @@ class SynThoolApp(QMainWindow, Ui_MainWindow):
 
             if self.reverbCheck.isChecked():
                 delay = self.reverbRetrasoSlider.value()
-                gain = self.reverbGananciaSlider.value()
+                gain = self.reverbGananciaSlider.value()/100.
                 self.wav_data = planeReverb(self.wav_data, delay, gain, self.midi.sample_rate)
             if self.echoCheck.isChecked():
                 delay = self.ehcoRetrasoSlider.value()
-                gain = self.echoGananciaSlider.value()
+                gain = self.echoGananciaSlider.value()/100.
                 self.wav_data = echo(self.wav_data, delay, gain, self.midi.sample_rate)
             if self.flangerCheck.isChecked():
                 delay = self.flangerRetrasoSlider.value()
-                gain = self.flangerGananciaSlider.value()
+                gain = self.flangerGananciaSlider.value()/100.
                 freq = self.flangerFrecuenciaSlider.value()/1000.
                 self.wav_data = flanger(self.wav_data, delay, gain, self.midi.sample_rate, freq)
+
 
         except Exception as e:
             print("Error al sintetizar: ", e)
 
         self.setPlaybackEnabled(True)
         self.playPauseBtn.setIcon(self.playIcon[0])
+        
+        duration = QtCore.QTime(0, 0).addSecs(int(len(self.wav_data) / self.midi.sample_rate))
+        # print(duration.toString("mm:ss"))
+
+        # self.initialTime.setMaximumTime(duration)     # No hace falta, se setea con la signal
+        self.finalTime.setMaximumTime(duration)
+        self.finalTime.setTime(duration)
+
+        self.initialTime.setEnabled(True)
+        self.finalTime.setEnabled(True)
+        self.graficarBtn.setEnabled(True)
 
     def getSynthFunc(self, index):
         return self.instruments[index][2]
@@ -186,4 +208,9 @@ class SynThoolApp(QMainWindow, Ui_MainWindow):
         self.songSlider.setEnabled(state)
 
     def graphSpectrogram(self):
-        print("Graficar espectrograma")
+        self.widget1.clear()
+        axes = self.widget1.axes
+        init = int(-self.initialTime.time().secsTo(QtCore.QTime(0, 0)) * self.midi.sample_rate)
+        end = int(-self.finalTime.time().secsTo(QtCore.QTime(0, 0)) * self.midi.sample_rate) + 1
+        axes.specgram(self.wav_data[init:end, 0], NFFT=1024, Fs=self.midi.sample_rate)
+        self.widget1.draw()
