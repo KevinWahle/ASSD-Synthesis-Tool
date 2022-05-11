@@ -35,13 +35,15 @@ int main() {
     // Resultado: [0.-0.j, 0.+0.j, 4.-0.j, 0.+0.j, 0.-0.j, 0.-0.j, 4.+0.j, 0.-0.j]
     cout << endl;
     
-    for(int i =0; i < 1024; i++) {
-        in[i] = complex<double>(i%16, 0);
+    for(int i = 0; i < 16; i++) {
+        in[i] = complex<double>(i%4, 0);
     }
 
     printArr(in.data(), 16);
-    fft(in.data(), in.data(), 1024);
-    printArr(in.data(), 1024);
+    fft(in.data(), in.data(), 16);
+    printArr(in.data(), 16);
+    // Resultado: [24.-0.j,  0.+0.j,  0.-0.j,  0.+0.j, -8.+8.j,  0.+0.j,  0.+0.j, 0.+0.j,
+    //             -8.-0.j,  0.-0.j,  0.-0.j,  0.-0.j, -8.-8.j, 0.-0.j, 0.+0.j,  0.-0.j]
 
     return 0;
 }

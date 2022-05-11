@@ -9,7 +9,7 @@ using namespace std;
 
 int _log2(size_t n);
 int bitReverse(int i, int logn);
-void bitReverse(complex<double> *in, complex<double> *out, size_t n);
+void bitReverse(complex<double> *arr, size_t n, int logn);
 void swap(complex<double> &a, complex<double> &b);
 
 void fft(complex<double> *in, complex<double> *out, size_t n) {
@@ -53,12 +53,8 @@ void fft(complex<double> *in, complex<double> *out, size_t n) {
     }
 
     // Ordenamiento de la salida
-    for (size_t i = 1; i < (n >> 1); i++)  // Desde 1 hasta N/2
-    {
-        swap(out[i], out[bitReverse(i, gamma)]);
-    }
+    bitReverse(out, n, gamma);
     
-
 }
 
 int _log2(size_t n) {
@@ -79,10 +75,12 @@ int bitReverse(int i, int logn) {
     return res;
 }
 
-void bitReverse(complex<double> *in, complex<double> *out, size_t n) {
-    int logn = _log2(n);
-    for (size_t i = 0; i < n; i++) {
-        out[bitReverse(i, logn)] = in[i];
+void bitReverse(complex<double> *arr, size_t n, int logn) {
+    for (int i = 2; i < int(n)-1; i++) {
+        int rev = bitReverse(i, logn);
+        if (i > rev) {  // Intercambia si su bitreverse esta antes (evita duplicados)
+            swap(arr[i], arr[rev]);
+        }
     }
 }
 
