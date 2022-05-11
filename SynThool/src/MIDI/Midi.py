@@ -8,17 +8,20 @@ import numpy as np
 def midinote2freq(n):
     A = 440  # Frecuencia de LA
     An = 69  # Valor correspondiente a LA440 en midi
-    distance = abs(An - n)
-    if n < An:
-        return A * 2 ** (-distance / 12)
-    else:
-        return A * 2 ** (distance / 12)
+    # distance = abs(An - n)
+    # if n < An:
+    #     return A * 2 ** (-distance / 12)
+    # else:
+    #     return A * 2 ** (distance / 12)
+    distance = n - An
+    return A * 2 ** (distance / 12)
 
 
 def get_tempo(mid_):
     for msg in mid_:  # Search for tempo
         if msg.type == 'set_tempo':
             return msg.tempo
+            # return msg.tempo*2
 
 
 class Midi:
@@ -90,7 +93,6 @@ class Midi:
         for j, message_data in enumerate(self.tracks_midi_list[track]):
             if message_data[0] == 'note_on':
                 A = message_data[3] 
-                freq = midinote2freq(message_data[1])
                 m = 1
                 tick_start = message_data[2]    # format is [type, note, time, velocity, channel]
                 while self.tracks_midi_list[track][j + m][0] != 'note off' and self.tracks_midi_list[track][j + m][1] != \
@@ -100,7 +102,9 @@ class Midi:
                 delta_ticks = tick_end - tick_start
                 delta_t = delta_ticks * self.sec_per_tick
                 n = int(self.sample_rate * tick_start * self.sec_per_tick)
-                arr = function(message_data[1], A, delta_t)[0]
+                arr = function(message_data[1], A, delta_t)
+                if arr.ndim == 1:
+                    arr = arr.reshape((-1, 1))
                 wave = np.zeros((n, arr.shape[1]))
                 wave = np.append(wave, arr, axis=0)
                 if self.wav_list[track].shape[0] < wave.shape[0]:
