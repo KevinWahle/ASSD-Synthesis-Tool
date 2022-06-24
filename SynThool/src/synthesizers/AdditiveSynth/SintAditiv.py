@@ -1,4 +1,3 @@
-#instalar intertools !!!!
 #https://18alan.medium.com/
 #https://www.noiiz.com/sounds/samples?instrument=27&sample_type=one_shot
 #https://freewavesamples.com/sample-type/bass
